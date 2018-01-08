@@ -1,10 +1,12 @@
 # lumpectomy
 
+Dependencies:
+- mostly recent R/Bioconductor
+
+Packages:
+- `optparse`
+- `VariantAnnotation`
+- `data.table`
+
 Usage:
-Rscript lumpectomy.R' vcf_file bed_file out_vcf_file out_csv_file
-
-The `query_loci.bed` file contains the 3 8Mb ranges:
-
-- FOXA1 (our region of interest)
-- MYC (a positive control with known rearrangements and copy-number changes) 
-- GAPDH (a negative control)
+`Rscript lumpectomy.R vcf_file bed_file out_vcf_file out_csv_file`
