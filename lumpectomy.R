@@ -54,7 +54,7 @@ lumpy.vcf2tbl <- function(vcf) {
         unlist(ifelse(lengths(info(vcf)[,xx])==0, NA_character_, as.list(info(vcf)[,xx])))
     }))
    ,
-    as.data.table(lapply(c("GT"="GT", "DP"="DP", "SU"="SU", "PE"="PE", "SR"="SR", "GQ"="GQ",
+    as.data.table(lapply(c("GT"="GT", "SU"="SU", "PE"="PE", "SR"="SR", "GQ"="GQ",
                            "SQ"="SQ", "RO"="RO", "AO"="AO", "QR"="QR",
                            "QA"="QA", "RS"="RS", "AS"="AS", "ASC"="ASC", "RP"="RP",
                            "AP"="AP", "AB"="AB"
@@ -102,12 +102,12 @@ main <- function() {
     ##
     tbl <- lumpy.vcf2tbl(vcf)
     tbl.loc <- tbl[SVTYPE %in% c("DUP", "DEL", "INV"), .(chr.5=CHR, pos.5=BEG, chr.3=CHR, pos.3=END, spn=SR, enc=PE,
-                                                         type=SVTYPE, filter=FILTER, dp=DP, gt=GT, id=ID)]
+                                                         type=SVTYPE, filter=FILTER, gt=GT, id=ID)]
     tmp.1 <- tbl[SVTYPE=="BND"][grep("_1",ID)]
     tmp.2 <- tbl[SVTYPE=="BND"][grep("_2",ID)]
     setkey(tmp.1, EVENT)
     setkey(tmp.2, EVENT)
-    tbl.bnd <- tmp.1[tmp.2,.(chr.5=CHR, pos.5=BEG, chr.3=i.CHR, pos.3=i.BEG, spn=SR, enc=PE, type=SVTYPE, filter=FILTER, dp=DP, gt=GT, id=EVENT)]
+    tbl.bnd <- tmp.1[tmp.2,.(chr.5=CHR, pos.5=BEG, chr.3=i.CHR, pos.3=i.BEG, spn=SR, enc=PE, type=SVTYPE, filter=FILTER, gt=GT, id=EVENT)]
     tbl.jnc <- rbind(tbl.loc, tbl.bnd)
     bpt.rng <- with(tbl.jnc, {
         bpt.5 <- GRanges(chr.5, IRanges(pos.5, pos.5))
